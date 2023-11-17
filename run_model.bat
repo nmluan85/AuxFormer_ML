@@ -1,0 +1,16 @@
+@echo off
+
+SET "model_type=wav2vec2-large-robust"
+SET "model=AuxFormer"
+SET "corpus=CREMA-D"
+SET "num_classes=ALL"
+SET "output_num=6"
+SET "label_rule=M"
+SET "partition_number=1"
+SET "data_mode=primary"
+SET "seed=0"
+SET "label_type=categorical"
+SET "label_learning=hard-label"
+SET "corpus_type=%corpus%_%num_classes%_%data_mode%"
+python "-u" "train.py" "--device" "cuda" "--model_type" "%model_type%" "--lr" ".725e-3" "--corpus_type" "%corpus_type%" "--seed" "%seed%" "--epochs" "30" "--batch_size" "32" "--hidden_dim" "1024" "--num_layers" "2" "--output_num" "%output_num%" "--label_type" "%label_type%" "--label_learning" "%label_learning%" "--corpus" "%corpus%" "--num_classes" "%num_classes%" "--label_rule" "%label_rule%" "--partition_number" "%partition_number%" "--data_mode" "%data_mode%" "--model_path" "model/%model_type%/%corpus_type%/%label_type%/%label_learning%/%data_mode%/%label_rule%/%model%/partition%partition_number%/seed_%seed%"
+python "-u" "test.py" "--device" "cuda" "--model_type" "%model_type%" "--corpus_type" "%corpus_type%" "--seed" "%seed%" "--batch_size" "1" "--hidden_dim" "1024" "--num_layers" "2" "--output_num" "%output_num%" "--label_type" "%label_type%" "--label_learning" "%label_learning%" "--corpus" "%corpus%" "--num_classes" "%num_classes%" "--label_rule" "%label_rule%" "--partition_number" "%partition_number%" "--data_mode" "%data_mode%" "--model_path" "model/%model_type%/%corpus_type%/%label_type%/%label_learning%/%data_mode%/%label_rule%/%model%/partition%partition_number%/seed_%seed%"
